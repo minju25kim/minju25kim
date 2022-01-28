@@ -1,8 +1,8 @@
 # 👋 Hi, I’m Minju Kim @kmj673
 ![github readme banner](https://user-images.githubusercontent.com/48757517/151579973-921f0671-8339-4c48-926a-e4b9a1aff78d.png)
 - 👀 I’m interested in software development.
-- 🌱 I’m currently learning html, css and js.
-- 💞️ I’m looking forward to collaborate on building website.
+- 🌱 I’m currently learning software development in FAC skills bootcamp.
+- 💞️ I’m looking forward to collaborations.
 ## 📫 Find me around the web:
 - Career updates on [LinkedIn](https://www.linkedin.com/in/minju-kim-minju/)
 - Reach me on [Twitter](https://twitter.com/minju25kim)
