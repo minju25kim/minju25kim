@@ -1,5 +1,3 @@
-# 👋 Hi, I’m Minju Kim @minju25kim
-
 ## Who am I?
 - 👀 I’m interested in web development and computer languages.
 - 💻 I’m currently learning software development in FAC skills bootcamp.
