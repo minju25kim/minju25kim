@@ -1,4 +1,4 @@
-# 👋 Hi, I’m Minju Kim @kmj673
+# 👋 Hi, I’m Minju Kim @minju25kim
 
 ## Who am I?
 - 👀 I’m interested in web development and computer languages.
