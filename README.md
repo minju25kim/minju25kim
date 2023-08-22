@@ -2,7 +2,4 @@
 
 [![StackShare](http://img.shields.io/badge/tech-stack-0690fa.svg?style=flat)](https://stackshare.io/minju25kim/my-stack)
 
-내가 만든 repo~
-
-[<img src="https://user-images.githubusercontent.com/48757517/227535127-3d46986f-79b2-4bbf-bb91-f7493a5b5869.png" height="500px">](https://devjeans.dev-hee.com/)
-
+![image](https://github.com/minju25kim/minju25kim/assets/48757517/dfb400e8-9001-4a0e-93b3-8b4086bb3543)
