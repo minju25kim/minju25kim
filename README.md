@@ -1,6 +1,6 @@
 [Computer Love](https://www.youtube.com/watch?v=_aVa7qVKUHI)
 
-personal [M25K](https://minju25kim.github.io/m25k/)
+personal [m25k](https://minju25kim.github.io/m25k/)
 
 (not yet)dev [minju25kim](https://www.minju25kim.com)
 
