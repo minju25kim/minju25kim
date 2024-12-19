@@ -16,12 +16,18 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const thisYear = new Date().getFullYear()
+
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        {/* add grid here */}
         {children}
+        <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
+          {thisYear} @minju25kim
+        </footer>
       </body>
     </html>
   );

@@ -1,8 +1,12 @@
+import SideNav from "@/ui/components/Sidebar";
 import type { Metadata } from "next";
 
+
 export const metadata: Metadata = {
-    title: "Dev",
-    description: "dev blog",
+    title: {
+        template: '%s',
+        default: 'minju25kim',
+    },
 };
 
 export default function Layout({
@@ -11,8 +15,9 @@ export default function Layout({
     children: React.ReactNode;
 }) {
     return (
-        <div>
+        <>
+            <SideNav />
             {children}
-        </div>
+        </>
     );
 }
