@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { geistSans, geistMono } from '@/ui/fonts';
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
+import AppSidebar from "@/components/Sidebar"
 
 export const metadata: Metadata = {
   title: {
@@ -11,24 +13,28 @@ export const metadata: Metadata = {
   // metadataBase: new URL('https://next-learn-dashboard.vercel.sh'),
 };
 
-export default function RootLayout({
+function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const thisYear = new Date().getFullYear()
-
+  // const thisYear = new Date().getFullYear()
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {/* add grid here */}
-        {children}
-        <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-          {thisYear} @minju25kim
-        </footer>
+    <html suppressHydrationWarning lang="en">
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <SidebarProvider>
+          <AppSidebar />
+          <main>
+            <SidebarTrigger />
+            {children}
+          </main>
+          {/* <footer>
+            {thisYear} @minju25kim
+          </footer> */}
+        </SidebarProvider>
       </body>
     </html>
   );
 }
+
+export default RootLayout;

@@ -10,3 +10,4 @@ export type Post = {
     content: string;
     preview?: boolean;
 };
+

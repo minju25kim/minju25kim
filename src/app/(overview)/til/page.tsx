@@ -18,7 +18,7 @@ export default function Page() {
       {allPosts.map((post) => {
         return (
           <div key={post.slug}>
-            <Link href={`/dev/${post.slug}`} key={post.slug}>
+            <Link href={`/til/${post.slug}`} key={post.slug}>
               {post.title}
             </Link>
           </div>

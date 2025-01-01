@@ -1,21 +1,26 @@
 import { Post } from "@/interfaces/post";
 import fs from "fs";
 import matter from "gray-matter";
+import { notFound } from "next/navigation";
 import { join } from "path";
 
-const postsDirectory = (dir: string) => join(process.cwd(), `src/markdown/${dir}`);
+const postsDirectory = (dir: string) => join(process.cwd(), `content/${dir}`);
 
 export function getPostSlugs(dir: string) {
     return fs.readdirSync(postsDirectory(dir));
 }
 
 export function getPostBySlug(dir: string, slug: string) {
-    const realSlug = slug.replace(/\.mdx$/, "");
-    const fullPath = join(postsDirectory(dir), `${realSlug}.mdx`);
-    const fileContents = fs.readFileSync(fullPath, "utf8");
-    const { data, content } = matter(fileContents);
-
-    return { ...data, slug: realSlug, content } as Post;
+    try {
+        const realSlug = slug.replace(/\.md$/, "");
+        const fullPath = join(postsDirectory(dir), `${realSlug}.md`);
+        const fileContents = fs.readFileSync(fullPath, "utf8");
+        const { data, content } = matter(fileContents);
+        return { ...data, slug: realSlug, content } as Post;
+    } catch (e) {
+        console.log(e)
+        notFound()
+    }
 }
 
 export function getAllPosts(dir: string): Post[] {
