@@ -13,6 +13,7 @@ jobs:
   release-and-deploy:
     name: Release and Deploy
     runs-on: ubuntu-latest
+    environment: production
 
     steps:
       # Step 1: Checkout the repository
