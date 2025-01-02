@@ -8,4 +8,3 @@ excerpt: ""
 ---
 hi this is review of the 2024 12/31 interview.
 
-![test-image-here](https://pbs.twimg.com/media/GdDzp1SagAIYP1G?format=jpg&name=large)

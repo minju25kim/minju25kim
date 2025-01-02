@@ -14,7 +14,7 @@ export default function Page() {
   console.log(allPosts)
   return (
     <main>
-      hi
+      til
       {allPosts.map((post) => {
         return (
           <div key={post.slug}>

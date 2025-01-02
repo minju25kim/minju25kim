@@ -21,6 +21,9 @@ function RootLayout({
   // const thisYear = new Date().getFullYear()
   return (
     <html suppressHydrationWarning lang="en">
+      <head>
+        <link rel="icon" href="/logo.svg" type="image/svg+xml" />
+      </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <SidebarProvider>
           <AppSidebar />
