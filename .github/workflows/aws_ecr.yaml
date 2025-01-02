@@ -64,6 +64,6 @@ jobs:
       # Step 6: Build, Tag, and Push Docker Image
       - name: Build, Tag, and Push Docker Image
         run: |
-          docker build -t ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.release_tag }} .
+          docker build docker/production/Dockerfile -t ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.release_tag }} .
           docker push ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.release_tag }}
           echo "Image pushed with tag: ${{ env.release_tag }}"
