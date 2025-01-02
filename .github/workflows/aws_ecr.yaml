@@ -13,22 +13,28 @@ jobs:
   release-and-deploy:
     name: Release and Deploy
     runs-on: ubuntu-latest
-    environment: production
 
     steps:
       # Step 1: Checkout the repository
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # Step 2: Set up GitHub CLI
-      - name: Set up GitHub CLI
-        uses: cli/gh-action@v3
+      # Step 2: Install GitHub CLI
+      - name: Install GitHub CLI
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gh
 
-      # Step 3: Generate a new release
-      - name: Create Release
-        id: create_release
+      # Step 3: Authenticate GitHub CLI
+      - name: Authenticate GitHub CLI
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "${GITHUB_TOKEN}" | gh auth login --with-token
+
+      # Step 4: Generate a new release
+      - name: Create Release
+        id: create_release
         run: |
           # Get the latest tag and bump the patch version
           latest_tag=$(git describe --tags --abbrev=0 || echo "v0.0.0")
@@ -41,7 +47,7 @@ jobs:
           # Save the new tag for later steps
           echo "release_tag=$new_tag" >> $GITHUB_ENV
 
-      # Step 4: Configure AWS credentials
+      # Step 5: Configure AWS credentials
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -49,12 +55,12 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
-      # Step 5: Login to Amazon ECR
+      # Step 6: Login to Amazon ECR
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-      # Step 6: Build, tag, and push the Docker image
+      # Step 7: Build, Tag, and Push Docker Image
       - name: Build, Tag, and Push Docker Image
         run: |
           docker build -t ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.release_tag }} .
