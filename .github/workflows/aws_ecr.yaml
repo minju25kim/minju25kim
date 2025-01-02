@@ -1,10 +1,7 @@
-name: Deploy to Amazon ECR
+name: ECR Deployment
 
 on:
   push:
-    tags:
-      - 'v*'
-  pull_request:
     branches:
       - main
 
@@ -12,33 +9,54 @@ env:
   AWS_REGION: ap-northeast-2
   ECR_REPOSITORY: minju25kim
 
-jobs:	
-  deploy:
-    name: Deploy
+jobs:
+  release-and-deploy:
+    name: Release and Deploy
     runs-on: ubuntu-latest
     environment: production
 
     steps:
-      - name: Checkout
+      # Step 1: Checkout the repository
+      - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Configure AWS credentials
+      # Step 2: Set up GitHub CLI
+      - name: Set up GitHub CLI
+        uses: cli/gh-action@v3
+
+      # Step 3: Generate a new release
+      - name: Create Release
+        id: create_release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Get the latest tag and bump the patch version
+          latest_tag=$(git describe --tags --abbrev=0 || echo "v0.0.0")
+          new_tag=$(echo $latest_tag | awk -F. '{printf "v%d.%d.%d", $1, $2, $3+1}')
+          echo "New release tag: $new_tag"
+          
+          # Create a new GitHub release
+          gh release create $new_tag -t $new_tag -n "Automated release for $new_tag"
+          
+          # Save the new tag for later steps
+          echo "release_tag=$new_tag" >> $GITHUB_ENV
+
+      # Step 4: Configure AWS credentials
+      - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
+      # Step 5: Login to Amazon ECR
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Extract Release Tag
-        id: tag
-        run: echo "RELEASE_TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
-
-      - name: Build, tag, and push image to Amazon ECR 
+      # Step 6: Build, tag, and push the Docker image
+      - name: Build, Tag, and Push Docker Image
         run: |
-          docker build -t ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.RELEASE_TAG }} .
-          docker push ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.RELEASE_TAG }}
-          echo "image=${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.RELEASE_TAG }}"
+          docker build -t ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.release_tag }} .
+          docker push ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.release_tag }}
+          echo "Image pushed with tag: ${{ env.release_tag }}"
