@@ -32,14 +32,19 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Get the latest tag and bump the patch version
-          latest_tag=$(git describe --tags --abbrev=0 || echo "v0.0.0")
+          # Get the latest tag and bump the version
+          latest_tag=$(git tag | sort -V | tail -n 1 || echo "v0.0.0")
           new_tag=$(echo $latest_tag | awk -F. '{printf "v%d.%d.%d", $1, $2, $3+1}')
           echo "New release tag: $new_tag"
-
-          # Create a new GitHub release using GITHUB_TOKEN directly
-          gh release create $new_tag -t $new_tag -n "Automated release for $new_tag" --repo $GITHUB_REPOSITORY
-          
+      
+          # Check if the tag already exists
+          if git ls-remote --tags origin | grep -q "refs/tags/$new_tag"; then
+            echo "Tag $new_tag already exists. Skipping release creation."
+          else
+            # Create a new GitHub release
+            gh release create $new_tag -t $new_tag -n "Automated release for $new_tag"
+          fi
+      
           # Save the new tag for later steps
           echo "release_tag=$new_tag" >> $GITHUB_ENV
 
