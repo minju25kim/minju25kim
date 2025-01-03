@@ -33,3 +33,7 @@ start-production: ## Start the production docker container.
 .PHONY: stop-production
 stop-production: ## Stop the production docker container.
 	docker compose -f docker/production/compose.yaml down
+
+.PHONY: start-ecr
+start-ecr:
+	docker compose -f compose.yaml up -d
