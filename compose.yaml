@@ -1,7 +1,0 @@
-services:
-  with-docker-ecr:
-    image: 214314861657.dkr.ecr.ap-northeast-2.amazonaws.com/minju25kim:v0.0.1
-    ports:
-      - 3003:3000
-    platform: linux/amd64
-    container_name: minju25kim-ecr
